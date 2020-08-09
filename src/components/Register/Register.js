@@ -1,4 +1,5 @@
 import React from 'react';
+import './Register.css';
 
 class Register extends React.Component {
 	constructor(props) {
@@ -6,7 +7,8 @@ class Register extends React.Component {
 		this.state = {
 			email: '',
 			password: '',
-			name: ''
+			name: '',
+			flag: 0
 		}
 	}
 	onNameChange = (event) => {
@@ -23,6 +25,7 @@ class Register extends React.Component {
 	}
 
 	onSubmitSignIn = () => {
+		this.setState({flag: 1})
 		fetch('https://boiling-inlet-15929.herokuapp.com/register', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
@@ -37,11 +40,18 @@ class Register extends React.Component {
 			if(user.id) {
 				this.props.loadUser(user);
 				this.props.onRouteChange('home');
+			} else {
+				this.setState({flag: 2})
 			}
 		})
 	}
 
 	render() {
+		if(this.state.flag == 1) {
+			return (
+				<div className="loader center"></div>
+			)
+		}
 		return (
 			<article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
 				<main className="pa4 black-80">
@@ -87,6 +97,7 @@ class Register extends React.Component {
 					      value="Register" 
 				      />
 				    </div>
+				    { this.state.flag === 2 && <p className="red helvetica db f5">Incorrect form submission</p>}
 				  </div>
 				</main>
 			</article>

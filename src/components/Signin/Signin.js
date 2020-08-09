@@ -1,11 +1,13 @@
 import React from 'react';
+import './Signin.css';
 
 class Signin extends React.Component {
 	constructor(props) {
 		super();
 		this.state = {
 			signInEmail: '',
-			signInPassword: ''
+			signInPassword: '',
+			flag: 0,
 		}
 	}
 	onEmailChange = (event) => {
@@ -17,6 +19,7 @@ class Signin extends React.Component {
 	}
 
 	onSubmitSignIn = () => {
+		this.setState({flag: 1})
 		fetch('https://boiling-inlet-15929.herokuapp.com/signin', {
 			method: 'post',
 			headers: {'Content-Type': 'application/json'},
@@ -30,12 +33,19 @@ class Signin extends React.Component {
 			if(user.id) {
 				this.props.loadUser(user);
 				this.props.onRouteChange('home');
+			} else {
+				this.setState({flag: 2})
 			}
 		})
 	}
 
 	render() {
 		const { onRouteChange } = this.props;
+		if(this.state.flag == 1) {
+			return (
+				<div className="loader center"></div>
+			)
+		}
 		return (
 			<article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
 				<main className="pa4 black-80">
@@ -74,6 +84,7 @@ class Signin extends React.Component {
 				    <div className="lh-copy mt3">
 				      <p onClick={() => onRouteChange('register')} className="pointer f6 link dim black db">Register</p>
 				    </div>
+				    { this.state.flag === 2 && <p className="red helvetica db f5">Your login credentials could not be verified</p>}
 				  </div>
 				</main>
 			</article>
