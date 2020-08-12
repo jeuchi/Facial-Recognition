@@ -8,8 +8,8 @@
 
 ✅ Front-end React.js and fully responsive routing to back-end\
 ✅ One Page Layout with dynamic rendering\
-✅ Styled with @Material-UI and custom CSS\
-✅ Change speed of the animations on the fly
+✅ Styled with Tachyons, Tilt, and Particles component\
+✅ Facial recognition with Clarifai API 
 
 
 To view a live example, **[click here](https://smart-brain-jeremy.herokuapp.com/)**
